@@ -1,1 +1,29 @@
+POST projects/_doc/calc_001
+{
+  "project_id": "calc_001",
+  "name": "Simple Calculator App",
+  "status": "active",
+  "deadline": "2026-03-01T00:00:00Z",
+  "priority": "high",
+  "progress": 0
+}
 
+POST projects/_doc/proj_002
+{
+  "project_id": "proj_002",
+  "name": "Task Management System",
+  "status": "active",
+  "deadline": "2026-03-05T00:00:00Z",
+  "priority": "high",
+  "progress": 35
+}
+
+POST projects/_doc/proj_003
+{
+  "project_id": "proj_003",
+  "name": "Portfolio Website",
+  "status": "active",
+  "deadline": "2026-02-28T00:00:00Z",
+  "priority": "medium",
+  "progress": 70
+}
