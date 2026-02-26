@@ -1,15 +1,3 @@
-
-This proves intelligence layer design.
-
----
-
-# 📁 4️⃣ logic/risk_scoring.md
-
-Document your risk model.
-
-Example:
-
-```markdown
 # Risk Scoring Model
 
 Risk formula:
