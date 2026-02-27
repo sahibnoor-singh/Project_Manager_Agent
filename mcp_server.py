@@ -11,8 +11,8 @@ mcp = FastMCP("project_manager")
 
 # Elasticsearch connection
 es = Elasticsearch(
-    "https://my-elasticsearch-project-f3843a.es.us-central1.gcp.elastic.cloud",
-    api_key="MGZfcm5wd0I3RV94d2gweE9XbnA6UWJhR2VLZXFfLUJLdGRfVl9BMmFHQQ=="
+    "your link to project",
+    api_key="your api key"
 )
 
 # Tool: create project
