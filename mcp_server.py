@@ -1,40 +1,46 @@
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 from elasticsearch import Elasticsearch
+from starlette.applications import Starlette
+from starlette.routing import Mount, Route
+from starlette.responses import JSONResponse
 import uuid
 from datetime import datetime
 
 # Create MCP server
 mcp = FastMCP("project_manager")
 
-# Connect Elasticsearch
+# Elasticsearch connection
 es = Elasticsearch(
     "https://my-elasticsearch-project-f3843a.es.us-central1.gcp.elastic.cloud",
-    api_key="UkVfQW1wd0JmMlREaXliWWI1SkQ6MHRVd2VsRFVNck82TVQwTm1GYS1EQQ=="
+    api_key="MGZfcm5wd0I3RV94d2gweE9XbnA6UWJhR2VLZXFfLUJLdGRfVl9BMmFHQQ=="
 )
 
+# Tool: create project
 @mcp.tool()
-def create_project(name: str, deadline: str, priority: str):
-    """Create a new project"""
+def create_project(name: str, description: str):
+    try:
+        project = {
+            "id": str(uuid.uuid4()),
+            "name": name,
+            "description": description,
+            "created_at": datetime.utcnow().isoformat()
+        }
 
-    project_id = str(uuid.uuid4())
+        es.index(
+            index="projects",
+            id=project["id"],
+            document=project
+        )
 
-    doc = {
-        "project_id": project_id,
-        "name": name,
-        "deadline": deadline,
-        "priority": priority,
-        "progress": 0,
-        "status": "active",
-        "created_at": datetime.utcnow()
-    }
+        return {
+            "status": "success",
+            "project": project
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }
 
-    es.index(index="projects", id=project_id, document=doc)
-
-    return {
-        "status": "created",
-        "project_id": project_id,
-        "name": name
-    }
-
-# Run MCP server
-app = mcp.sse_app
+# Use streamable-http transport at root path for Elastic Agent Builder
+app = mcp.http_app(path="/", transport="streamable-http")
